@@ -1,0 +1,16 @@
+{
+  "game_id": "ng47-9d1b3f52",
+  "title": "COVERS",
+  "default_fps": 8,
+  "baseline_actions": [
+    12,
+    16,
+    18,
+    16,
+    18
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

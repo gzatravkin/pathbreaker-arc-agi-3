@@ -1,0 +1,16 @@
+{
+  "game_id": "ng59-5a590001",
+  "title": "AEROSTAT",
+  "default_fps": 8,
+  "baseline_actions": [
+    6,
+    11,
+    14,
+    18,
+    20
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

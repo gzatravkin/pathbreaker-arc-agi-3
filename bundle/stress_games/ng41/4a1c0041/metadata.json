@@ -1,0 +1,16 @@
+{
+  "game_id": "ng41-4a1c0041",
+  "title": "BEARING",
+  "default_fps": 8,
+  "baseline_actions": [
+    26,
+    22,
+    32,
+    30,
+    37
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

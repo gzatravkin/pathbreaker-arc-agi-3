@@ -1,0 +1,17 @@
+{
+  "game_id": "ng13-5a0f13d8",
+  "title": "LABYRINTH",
+  "default_fps": 8,
+  "baseline_actions": [
+    72,
+    165,
+    261,
+    180,
+    123,
+    231
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "game_id": "ng04-4c9e1a37",
+  "title": "FOG",
+  "default_fps": 8,
+  "baseline_actions": [
+    347,
+    78,
+    86,
+    88,
+    102,
+    104
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

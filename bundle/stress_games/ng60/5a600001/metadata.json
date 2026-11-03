@@ -1,0 +1,18 @@
+{
+  "game_id": "ng60-5a600001",
+  "title": "MAGNET",
+  "default_fps": 8,
+  "baseline_actions": [
+    5,
+    3,
+    3,
+    4,
+    5,
+    6,
+    8
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

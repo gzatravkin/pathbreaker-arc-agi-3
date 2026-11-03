@@ -1,0 +1,16 @@
+{
+  "game_id": "ng26-c26a1f01",
+  "title": "TIERS",
+  "default_fps": 8,
+  "baseline_actions": [
+    31,
+    26,
+    26,
+    36,
+    29
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

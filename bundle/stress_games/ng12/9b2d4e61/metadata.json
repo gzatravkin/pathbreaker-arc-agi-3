@@ -1,0 +1,16 @@
+{
+  "game_id": "ng12-9b2d4e61",
+  "title": "AUTOBATTLER",
+  "default_fps": 8,
+  "baseline_actions": [
+    13,
+    13,
+    14,
+    16,
+    16
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

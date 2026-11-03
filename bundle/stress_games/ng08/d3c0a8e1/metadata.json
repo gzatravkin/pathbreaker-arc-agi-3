@@ -1,0 +1,17 @@
+{
+  "game_id": "ng08-d3c0a8e1",
+  "title": "DECOY",
+  "default_fps": 8,
+  "baseline_actions": [
+    114,
+    64,
+    67,
+    75,
+    62,
+    57
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

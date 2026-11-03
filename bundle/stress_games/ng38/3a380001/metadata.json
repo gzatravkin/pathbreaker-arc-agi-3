@@ -1,0 +1,16 @@
+{
+  "game_id": "ng38-3a380001",
+  "title": "CONVEY",
+  "default_fps": 8,
+  "baseline_actions": [
+    12,
+    12,
+    14,
+    16,
+    19
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

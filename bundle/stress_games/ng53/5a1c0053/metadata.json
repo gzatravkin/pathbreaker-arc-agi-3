@@ -1,0 +1,16 @@
+{
+  "game_id": "ng53-5a1c0053",
+  "title": "SERIES",
+  "default_fps": 8,
+  "baseline_actions": [
+    9,
+    9,
+    9,
+    9,
+    9
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "game_id": "ng46-4c6a1e20",
+  "title": "TABLET",
+  "default_fps": 8,
+  "baseline_actions": [
+    87,
+    111,
+    121,
+    121,
+    134
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

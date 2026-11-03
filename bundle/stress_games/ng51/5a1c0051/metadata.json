@@ -1,0 +1,16 @@
+{
+  "game_id": "ng51-5a1c0051",
+  "title": "SORTER",
+  "default_fps": 8,
+  "baseline_actions": [
+    12,
+    12,
+    12,
+    12,
+    12
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

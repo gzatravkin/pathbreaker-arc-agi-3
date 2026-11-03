@@ -1,0 +1,16 @@
+{
+  "game_id": "ng36-3a360001",
+  "title": "BLINK",
+  "default_fps": 8,
+  "baseline_actions": [
+    18,
+    12,
+    19,
+    24,
+    25
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "game_id": "ng09-5b0c4d71",
+  "title": "DEADLOCK",
+  "default_fps": 8,
+  "baseline_actions": [
+    77,
+    44,
+    35,
+    45,
+    52,
+    58
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

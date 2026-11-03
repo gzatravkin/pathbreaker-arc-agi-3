@@ -1,0 +1,16 @@
+{
+  "game_id": "ng64-6a1d0064",
+  "title": "PREY",
+  "default_fps": 8,
+  "baseline_actions": [
+    10,
+    11,
+    13,
+    12,
+    25
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

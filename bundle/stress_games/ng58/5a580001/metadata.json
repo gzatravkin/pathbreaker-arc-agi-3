@@ -1,0 +1,16 @@
+{
+  "game_id": "ng58-5a580001",
+  "title": "EMBER",
+  "default_fps": 8,
+  "baseline_actions": [
+    8,
+    3,
+    7,
+    8,
+    11
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

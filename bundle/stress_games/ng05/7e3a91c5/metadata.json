@@ -1,0 +1,17 @@
+{
+  "game_id": "ng05-7e3a91c5",
+  "title": "AFTERIMAGE",
+  "default_fps": 8,
+  "baseline_actions": [
+    82,
+    237,
+    73,
+    56,
+    70,
+    66
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

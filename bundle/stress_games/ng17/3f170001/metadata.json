@@ -1,0 +1,17 @@
+{
+  "game_id": "ng17-3f170001",
+  "title": "COPYCAT",
+  "default_fps": 8,
+  "baseline_actions": [
+    14,
+    26,
+    16,
+    13,
+    24,
+    16
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

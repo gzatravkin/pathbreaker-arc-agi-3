@@ -1,0 +1,16 @@
+{
+  "game_id": "ng77-77f00001",
+  "title": "FERRY",
+  "default_fps": 8,
+  "baseline_actions": [
+    10,
+    18,
+    16,
+    19,
+    23
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

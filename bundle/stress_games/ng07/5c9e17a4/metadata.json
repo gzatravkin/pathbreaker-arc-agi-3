@@ -1,0 +1,17 @@
+{
+  "game_id": "ng07-5c9e17a4",
+  "title": "SWAP",
+  "default_fps": 8,
+  "baseline_actions": [
+    61,
+    94,
+    44,
+    40,
+    25,
+    43
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

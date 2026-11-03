@@ -1,0 +1,16 @@
+{
+  "game_id": "ng39-3a390001",
+  "title": "BEACON",
+  "default_fps": 8,
+  "baseline_actions": [
+    3,
+    6,
+    7,
+    9,
+    10
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

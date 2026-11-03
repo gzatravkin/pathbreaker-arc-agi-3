@@ -1,0 +1,17 @@
+{
+  "game_id": "ng24-2a240001",
+  "title": "SWITCHBOARD",
+  "default_fps": 8,
+  "baseline_actions": [
+    18,
+    23,
+    21,
+    26,
+    23,
+    18
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

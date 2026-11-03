@@ -1,0 +1,16 @@
+{
+  "game_id": "ng28-e28c3f03",
+  "title": "SETTLE",
+  "default_fps": 8,
+  "baseline_actions": [
+    12,
+    17,
+    19,
+    25,
+    22
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

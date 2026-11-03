@@ -1,0 +1,17 @@
+{
+  "game_id": "ng10-f1e5a2b9",
+  "title": "FUSE",
+  "default_fps": 8,
+  "baseline_actions": [
+    83,
+    1,
+    1,
+    1,
+    1,
+    2
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "game_id": "ng21-2a210001",
+  "title": "WIRES",
+  "default_fps": 8,
+  "baseline_actions": [
+    14,
+    12,
+    12,
+    11,
+    11,
+    14
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}
