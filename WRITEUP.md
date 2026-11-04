@@ -267,29 +267,32 @@ A trimmed request no longer extends the paused session, so the serve re-reads ~5
 trim within the same 20 minutes of a run, and generation falls from ~3,700 to ~2,100–2,700 tokens/s while prefill
 runs at 6–8K tokens/s.
 
-**Trim holes: skipping that prefill, and why we took them out.** A trim removes a span from the middle of the
+**Trim holes: skipping that prefill at a small cost in quality.** A trim removes a span from the middle of the
 history; everything before it (the system prompt and the first turn) and everything after it is unchanged. So instead
 of re-reading 57K tokens, the serve can keep the held session and *punch a hole*: drop the attention KV rows of the
 removed span (in 3,584-token aligned blocks), keep the head and the tail at their old rotary positions, and continue.
-Nothing is recomputed. Two things are not exact, and we measured both.
+Nothing is recomputed, and the trim storm of the first hour disappears. It is one of the more interesting
+optimizations in the stack, and it is approximate in two ways, which we measured.
 
 - *The recurrent state cannot be cut.* The Gated-DeltaNet state is one summary of everything before the current
-  token, so after a hole it still carries the text the client removed. A self-check that compares a holed session's
-  next 16 greedy tokens with an honest recompute of the same text failed 3 of the 4 times it was recorded.
+  token, so after a hole it still carries the text the client removed. A strict self-check (the holed session's next
+  16 greedy tokens against an honest recompute, first-token log-probability within 0.5 nat) flagged 3 of the 4
+  comparisons recorded; in the one we read, the holed session's token was still in the recompute's top 5, which
+  points at the shifted positions rather than at corrupted state.
 - *Positions drift.* Each hole leaves a gap in the rotary positions, so the head's distance from the newest token
   grows with every trim. In a two-hour run, 92 sessions were holed; the largest gap a session reached was 121,856
   positions at the median and 501,760 at most, and 37 of the 92 ended with the head farther away than the model's
   262,144 trained positions. A stress test that opened a 700,000-position gap from the first turn produced garbage at
-  once (text refused in 546 of 1,332 turns against 43, no levels). In ordinary runs the distance itself mattered less
-  than the hole: replies without a tool call ran at 1.34% of turns with no hole (2,243 turns), 2.70% with holes inside
-  262K (2,669 turns) and 2.67% beyond it (750 turns).
+  once (text refused in 546 of 1,332 turns against 43, no levels). In ordinary runs the distance mattered little:
+  replies without a tool call ran at 1.34% of turns with no hole (2,243 turns), 2.70% with holes inside 262K
+  (2,669 turns) and 2.67% beyond it (750 turns) — about one extra empty turn in seventy.
 
-Holes ran in our submissions from Oct 19 to Oct 30. The decision came from a pair of 110-session rehearsals
-identical except for the holes, reading every game copy at an equal number of its own tokens: at 250K
-tokens the holed run was ahead (53.2 against 50.9 levels), by 519K the clean run was (66.0 against 63.4), and at 682K
-the clean run read 68.3 against 64.0, ahead in 14 of 16 paired passes (one-sided p = 0.06). Holes bought early speed
-and cost late play — the speed-for-quality trade of this whole write-up in one knob — so both selected submissions run
-without them and pay the re-prefill.
+Holes ran in our submissions from Oct 19 to Oct 30, through most of our climb on the board. To compare, we ran a
+pair of 110-session rehearsals identical except for the holes and read every game copy at an equal number of its own
+tokens: at 250K tokens the holed run was ahead (53.2 against 50.9 levels), from about 500K the clean run was (68.3
+against 64.0 at 682K, 14 of 16 paired passes, one-sided p = 0.06 on one pair of runs). The quality cost is small and
+shows up late; for the final bundles we took the conservative side and paid the re-prefill. With the head's keys
+re-rotated at each hole, so that its distance stays inside the trained window, holes are worth revisiting.
 
 **Prefill hold with adaptive release.** Small prefills interleaved with decode create expensive mixed steps. The
 scheduler holds waiting prefill while sessions decode and releases it when the token budget fills or when a cost
@@ -368,7 +371,7 @@ What the gate rejected or rolled back:
 | CUDA rewrite of the DeltaNet verify | 10–19% faster a layer | — | malformed tool calls 0.29% → 0.78% of replies |
 | int8 recurrent state | ~2,000 pool blocks freed with packing | **1.01×** | replies ending inside the reasoning block ~3× as often |
 | int6 KV + 4,096-row hot window + 2,048-token step | 110 sessions, ~10% fewer tokens/s | — | 2 levels by minute 7 against 50: malformed tool calls |
-| trim holes | removed the ~57K-token re-prefill at every history trim | — | fewer levels late: 64.0 against 68.3 at 682K tokens a copy, 14 of 16 paired passes (Section 6) |
+| trim holes | removed the ~57K-token re-prefill at every history trim | — | a small late-game cost in one paired rehearsal (64.0 against 68.3 at 682K tokens a copy); off in the final bundles as the conservative choice (Section 6) |
 | 3-bit experts | ~25% fewer expert bytes | — | built, never passed to a scored run |
 
 The int8 recurrent state is the lesson. Its per-token drift was indistinguishable from the floor, and it still
