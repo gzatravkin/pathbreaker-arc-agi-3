@@ -1,0 +1,17 @@
+{
+  "game_id": "ng15-7d0f15e2",
+  "title": "RESTAURANT",
+  "default_fps": 8,
+  "baseline_actions": [
+    34,
+    46,
+    57,
+    60,
+    74,
+    85
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

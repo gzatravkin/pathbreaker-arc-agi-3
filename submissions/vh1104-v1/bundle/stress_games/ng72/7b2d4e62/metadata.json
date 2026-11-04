@@ -1,0 +1,16 @@
+{
+  "game_id": "ng72-7b2d4e62",
+  "title": "TIMELOCK",
+  "default_fps": 8,
+  "baseline_actions": [
+    9,
+    16,
+    9,
+    10,
+    20
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "game_id": "ng49-6e0d5a93",
+  "title": "RELIC",
+  "default_fps": 8,
+  "baseline_actions": [
+    38,
+    38,
+    37,
+    31,
+    38
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

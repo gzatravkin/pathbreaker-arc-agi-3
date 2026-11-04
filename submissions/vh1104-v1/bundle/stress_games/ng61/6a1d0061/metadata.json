@@ -1,0 +1,16 @@
+{
+  "game_id": "ng61-6a1d0061",
+  "title": "HERD",
+  "default_fps": 8,
+  "baseline_actions": [
+    15,
+    20,
+    22,
+    20,
+    23
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

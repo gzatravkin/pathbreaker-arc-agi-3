@@ -1,0 +1,16 @@
+{
+  "game_id": "ng73-7c3e5f73",
+  "title": "TALLYGATE",
+  "default_fps": 8,
+  "baseline_actions": [
+    7,
+    10,
+    10,
+    20,
+    21
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

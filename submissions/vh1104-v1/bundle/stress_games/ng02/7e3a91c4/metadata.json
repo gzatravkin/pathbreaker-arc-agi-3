@@ -1,0 +1,17 @@
+{
+  "game_id": "ng02-7e3a91c4",
+  "title": "PLACE",
+  "default_fps": 8,
+  "baseline_actions": [
+    27,
+    11,
+    9,
+    7,
+    11,
+    16
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

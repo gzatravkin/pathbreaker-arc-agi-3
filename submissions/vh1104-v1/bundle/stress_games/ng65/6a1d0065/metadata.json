@@ -1,0 +1,16 @@
+{
+  "game_id": "ng65-6a1d0065",
+  "title": "FLOCK",
+  "default_fps": 8,
+  "baseline_actions": [
+    11,
+    11,
+    10,
+    20,
+    16
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

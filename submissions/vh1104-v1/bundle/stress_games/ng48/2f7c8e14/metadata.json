@@ -1,0 +1,16 @@
+{
+  "game_id": "ng48-2f7c8e14",
+  "title": "KEYRING",
+  "default_fps": 8,
+  "baseline_actions": [
+    22,
+    32,
+    74,
+    121,
+    116
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

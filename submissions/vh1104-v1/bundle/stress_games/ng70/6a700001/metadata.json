@@ -1,0 +1,16 @@
+{
+  "game_id": "ng70-6a700001",
+  "title": "SHEARS",
+  "default_fps": 8,
+  "baseline_actions": [
+    19,
+    10,
+    8,
+    23,
+    34
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

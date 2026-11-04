@@ -1,0 +1,16 @@
+{
+  "game_id": "ng29-f29d4a04",
+  "title": "HOPS",
+  "default_fps": 8,
+  "baseline_actions": [
+    4,
+    6,
+    8,
+    10,
+    12
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

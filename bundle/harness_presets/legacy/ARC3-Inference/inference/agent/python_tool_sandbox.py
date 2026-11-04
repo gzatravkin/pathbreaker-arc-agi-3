@@ -362,9 +362,9 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
                 if not action_name:
                     raise ValueError(f"Action {index} is missing an `action` field.")
                 entry = {"action": action_name}
-                if action_name.upper() == "CLICK" and ("x" in item or "y" in item):
+                if action_name.upper() == "MOUSE" and ("x" in item or "y" in item):
                     raise ValueError(
-                        f"Action {index} uses legacy CLICK x/y fields; use row and col."
+                        f"Action {index} uses legacy MOUSE x/y fields; use row and col."
                     )
                 if "row" in item:
                     entry["row"] = item.get("row")

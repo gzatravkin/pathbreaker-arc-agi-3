@@ -1,0 +1,16 @@
+{
+  "game_id": "ng82-8a820001",
+  "title": "PIPS",
+  "default_fps": 8,
+  "baseline_actions": [
+    8,
+    9,
+    10,
+    10,
+    11
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

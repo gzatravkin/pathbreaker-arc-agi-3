@@ -1,0 +1,16 @@
+{
+  "game_id": "ng54-5a1c0054",
+  "title": "EXAMPLES",
+  "default_fps": 8,
+  "baseline_actions": [
+    27,
+    21,
+    16,
+    23,
+    15
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

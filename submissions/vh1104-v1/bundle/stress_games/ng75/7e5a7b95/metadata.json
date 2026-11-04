@@ -1,0 +1,16 @@
+{
+  "game_id": "ng75-7e5a7b95",
+  "title": "AQUEDUCT",
+  "default_fps": 8,
+  "baseline_actions": [
+    4,
+    5,
+    4,
+    6,
+    7
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "game_id": "ng06-b42d6f08",
+  "title": "STACKS",
+  "default_fps": 8,
+  "baseline_actions": [
+    34,
+    28,
+    30,
+    32,
+    36,
+    40
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

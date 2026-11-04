@@ -1,0 +1,17 @@
+{
+  "game_id": "ng18-3f180001",
+  "title": "TALLY",
+  "default_fps": 8,
+  "baseline_actions": [
+    16,
+    19,
+    31,
+    31,
+    24,
+    25
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

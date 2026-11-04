@@ -1,0 +1,16 @@
+{
+  "game_id": "ng37-3a370001",
+  "title": "DIALS",
+  "default_fps": 8,
+  "baseline_actions": [
+    10,
+    8,
+    10,
+    11,
+    9
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

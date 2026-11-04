@@ -1,0 +1,16 @@
+{
+  "game_id": "ng83-8a830001",
+  "title": "MINT",
+  "default_fps": 8,
+  "baseline_actions": [
+    10,
+    15,
+    20,
+    19,
+    31
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

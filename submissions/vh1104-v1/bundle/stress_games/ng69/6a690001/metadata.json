@@ -1,0 +1,16 @@
+{
+  "game_id": "ng69-6a690001",
+  "title": "LAYERS",
+  "default_fps": 8,
+  "baseline_actions": [
+    14,
+    15,
+    17,
+    15,
+    16
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

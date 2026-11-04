@@ -1,0 +1,17 @@
+{
+  "game_id": "ng20-3f200001",
+  "title": "GRAVITY",
+  "default_fps": 8,
+  "baseline_actions": [
+    8,
+    10,
+    12,
+    14,
+    12,
+    12
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

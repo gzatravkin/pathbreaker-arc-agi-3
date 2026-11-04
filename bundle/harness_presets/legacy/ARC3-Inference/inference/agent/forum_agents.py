@@ -37,7 +37,7 @@ PARTS = {"all": None, "thinking": {"THINKING"}, "code": {"TOOL CALL"}, "results"
 DOCS = """About the competition (ARC Prize 2026, ARC-AGI-3):
 - Every game is an unfamiliar turn-based puzzle on a grid of at most 64x64 cells, 16 colours. Nobody is told the rules or the goal; a player discovers them by acting and watching.
 - Each game has several levels. A later level usually reuses the mechanics of earlier ones and adds something new.
-- Actions: UP, DOWN, LEFT, RIGHT, INTERACT, CLICK (a cell), UNDO; RESET restarts the level. The same names mean the same thing in every game.
+- Actions: UP, DOWN, LEFT, RIGHT, SPACE (interact), MOUSE (click a cell), UNDO; RESET restarts the level. The same names mean the same thing in every game.
 - Score of one level = min(1.15, (human actions / player actions)^2) if the level is won, else 0. Level k weighs k (the 5th level counts five times the 1st). Every action counts, RESET included. Fewer actions on a won level is worth a lot; a level not won is worth nothing.
 - The scored set is hidden and its games differ from these. What transfers is a way of thinking, a debugging habit, a tool, a search method, not a game's solution.
 

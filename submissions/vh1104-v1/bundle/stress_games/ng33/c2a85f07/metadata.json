@@ -1,0 +1,16 @@
+{
+  "game_id": "ng33-c2a85f07",
+  "title": "CRUMBLE",
+  "default_fps": 8,
+  "baseline_actions": [
+    22,
+    26,
+    30,
+    35,
+    39
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

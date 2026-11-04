@@ -1,0 +1,16 @@
+{
+  "game_id": "ng66-6a660001",
+  "title": "STAMP",
+  "default_fps": 8,
+  "baseline_actions": [
+    19,
+    20,
+    23,
+    27,
+    35
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "game_id": "ng56-5a560001",
+  "title": "CISTERN",
+  "default_fps": 8,
+  "baseline_actions": [
+    10,
+    7,
+    8,
+    12,
+    28
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

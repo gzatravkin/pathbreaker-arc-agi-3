@@ -41,8 +41,8 @@ def action_signature(action: Any) -> str:
     identity: a click is only "the same action" at the same cell.
 
     Accepts both shapes the harness uses - the dict form the sandbox passes
-    (`{"action": "CLICK", "row": 4, "col": 7}`) and the display form the death
-    ledger stores (`"CLICK(row=4, col=7)"`) - and normalizes them to the same
+    (`{"action": "MOUSE", "row": 4, "col": 7}`) and the display form the death
+    ledger stores (`"MOUSE(row=4, col=7)"`) - and normalizes them to the same
     string, so a verdict recorded through one path is found through the other.
     Callers must pass MODEL-facing names (UP/DOWN/...), not engine names
     (ACTION1/ACTION2/...).

@@ -1,0 +1,16 @@
+{
+  "game_id": "ng71-7a1f3c51",
+  "title": "TOPPLE",
+  "default_fps": 8,
+  "baseline_actions": [
+    6,
+    6,
+    6,
+    6,
+    8
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

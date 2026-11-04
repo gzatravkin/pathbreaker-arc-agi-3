@@ -1,0 +1,16 @@
+{
+  "game_id": "ng31-4d17a9c3",
+  "title": "ADDER",
+  "default_fps": 8,
+  "baseline_actions": [
+    14,
+    9,
+    9,
+    12,
+    10
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

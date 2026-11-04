@@ -87,17 +87,17 @@ VISUAL_GAME_ADDENDUM = (
     "- Re-ground on the newest frame after any score increase or abrupt scene change; the returned board may already be the next level.\n"
     "- `WIN` means the whole game is solved. Mid-run level completion is more likely to appear as a score increase while play continues.\n"
     "- Strategies may transfer loosely across levels, but layouts and mechanics can change. Re-check the new board before repeating a plan.\n"
-    "- For `CLICK`, pass `row` and `col` integer arguments. `row` is vertical position, `col` is horizontal position.\n"
+    "- For `MOUSE`, pass `row` and `col` integer arguments. `row` is vertical position, `col` is horizontal position.\n"
 )
 
 ACTION_INFO_ADDENDUM = (
     "\n\nAction meanings (use only actions currently available):\n"
     "- `UP`, `DOWN`, `LEFT`, and `RIGHT` are directional controls; what they affect "
     "depends on the game.\n"
-    "- When available, `INTERACT` performs a game-specific action, such as interacting, "
+    "- When available, `SPACE` performs a game-specific action, such as interacting, "
     "selecting, rotating, attaching/detaching, or executing. Test its effect rather "
     "than assuming what it does.\n"
-    "- When available, `CLICK` clicks a board location. Pass integer `row` and `col` "
+    "- When available, `MOUSE` clicks a board location. Pass integer `row` and `col` "
     "fields from 0 to 63. Coordinates are zero-based from the top-left: `row` "
     "increases downward and `col` increases rightward.\n"
 )
@@ -155,7 +155,7 @@ STRUCTURED_RUNTIME_STATE_ADDENDUM = (
     "- On the next analyzer turn after automatic RESET, `current_frame` shows the restarted level. The fatal action and RESET are separate transitions. Each transition result has `automatic=True` for a harness-initiated action and `automatic=False` for a model-issued action. Automatic RESET does not overwrite `last_action_call_result`: it still describes the call that caused death.\n"
     "- `valid_actions` is the current list of valid action names.\n"
     "- Call `action(actions)` to execute one or more real environment actions from Python.\n"
-    "- Pass `action(actions)` a list like `['LEFT']` or `[{'action': 'CLICK', 'row': 4, 'col': 7}]`.\n"
+    "- Pass `action(actions)` a list like `['LEFT']` or `[{'action': 'MOUSE', 'row': 4, 'col': 7}]`.\n"
     "- One action usually returns one frame, but a single action can result in a short multi-frame animation.\n"
     "- After `action(actions)` returns, `current_frame`, `previous_frame`, `history`, `transitions`, `valid_actions`, and `last_action_call_result` are refreshed.\n"
 )

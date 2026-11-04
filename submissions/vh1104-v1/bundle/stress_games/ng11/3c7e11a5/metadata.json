@@ -1,0 +1,17 @@
+{
+  "game_id": "ng11-3c7e11a5",
+  "title": "FARM",
+  "default_fps": 8,
+  "baseline_actions": [
+    345,
+    182,
+    184,
+    282,
+    85,
+    153
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

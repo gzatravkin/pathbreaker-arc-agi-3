@@ -1,0 +1,16 @@
+{
+  "game_id": "ng84-8a840001",
+  "title": "SUMPAIR",
+  "default_fps": 8,
+  "baseline_actions": [
+    8,
+    12,
+    12,
+    12,
+    16
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

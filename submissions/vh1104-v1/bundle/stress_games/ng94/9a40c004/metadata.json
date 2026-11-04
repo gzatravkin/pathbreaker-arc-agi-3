@@ -1,0 +1,16 @@
+{
+  "game_id": "ng94-9a40c004",
+  "title": "DYE",
+  "default_fps": 8,
+  "baseline_actions": [
+    5,
+    15,
+    27,
+    17,
+    20
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

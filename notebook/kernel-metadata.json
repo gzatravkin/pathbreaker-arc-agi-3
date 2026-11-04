@@ -1,20 +1,19 @@
 {
-  "id": "grigoriyzatravkin/franzen-bulletk400fin1",
-  "id_no": 142291184,
-  "title": "Franzen bulletk400fin1",
-  "code_file": "franzen-bulletk400fin1.ipynb",
+  "id": "grigoriyzatravkin/franzen-bulletk400hb1101",
+  "id_no": 142178075,
+  "title": "Franzen bulletk400hb1101",
+  "code_file": "franzen-bulletk400hb1101.ipynb",
   "language": "python",
   "kernel_type": "notebook",
-  "is_private": true,
+  "is_private": false,
   "enable_gpu": true,
   "enable_tpu": false,
   "enable_internet": false,
   "keywords": [],
   "dataset_sources": [
-    "grigoriyzatravkin/arc3-compile-delta-hx1101",
     "grigoriyzatravkin/arc3-drafter-snapb",
     "grigoriyzatravkin/arc3-mtp-hour2",
-    "grigoriyzatravkin/arc3-serving-stage410",
+    "grigoriyzatravkin/arc3-serving-unified59h",
     "grigoriyzatravkin/arc3-start-seed",
     "grigoriyzatravkin/arc3-vllm030-runtime-flat",
     "grigoriyzatravkin/arc3-mtp-c512",
@@ -22,7 +21,7 @@
     "grigoriyzatravkin/arc3-ple-q6-0",
     "grigoriyzatravkin/arc3-ple-q6-1",
     "grigoriyzatravkin/arc3-ple-q6-2",
-    "grigoriyzatravkin/franzen-srck400rn1"
+    "grigoriyzatravkin/franzen-srck400hx1101"
   ],
   "kernel_sources": [],
   "competition_sources": [

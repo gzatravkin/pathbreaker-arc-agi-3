@@ -401,7 +401,7 @@ _PYTHON_TOOL_DESCRIPTION = (
     "`current_frame` and each `history[*].frame` expose only `.ascii`, `.segmentation`, `.step`, `.level`, and `.shape` (a `(rows, cols)` tuple); "
     "`history[-1].frame` is the current post-action frame, not the previous frame. "
     "For before/after diffs, compare `previous_frame` to `current_frame` or use `last_transition.before_frame` and `.after_frame`. "
-    "For CLICK, pass `row` and `col` integer fields; legacy x/y fields are rejected. "
+    "For MOUSE, pass `row` and `col` integer fields; legacy x/y fields are rejected. "
     "The raw numeric grid is not available. Use `.segmentation` as the primary view; use `.ascii` only to read a small, specific region. "
     "Use `print(...)` for compact output or assign final data to `result`."
 )
@@ -3127,7 +3127,7 @@ def _static_turn_lines() -> list[str]:
             "When ready, call `action(actions)` from inside the `python` tool with the best valid action or ordered batch selected by your code. If your code has found a reliable short sequence, prefer batching it in one call.",
             "You may call `action(actions)` more than once in one Python snippet if your search or control loop needs it.",
             TOOL_CALL_FORMAT_GUIDANCE,
-            "If you use CLICK, include integer row and col arguments.",
+            "If you use MOUSE, include integer row and col arguments.",
         ]
     )
     return lines
@@ -3209,7 +3209,7 @@ def _build_system_prompt_base(*, tool_output_tokens: int) -> str:
     if _get_env_bool("ARC3_ACTION_INFO", False):
         # The action-info section replaces the earlier coordinate-only guidance.
         prompt = prompt.replace(
-            "- For `CLICK`, pass `row` and `col` integer arguments. `row` is vertical position, `col` is horizontal position.\n",
+            "- For `MOUSE`, pass `row` and `col` integer arguments. `row` is vertical position, `col` is horizontal position.\n",
             "",
         )
         prompt += ACTION_INFO_ADDENDUM
@@ -5731,7 +5731,7 @@ class ToolAgent:
                     previous_step_summary.get("animation"),
                     action_display=previous_step_summary.get("animation_action"),
                     # the animated action's own flag, not the sequence's: an
-                    # inert INTERACT at the end of a batch that moved other things
+                    # inert SPACE at the end of a batch that moved other things
                     # still hid everything it did
                     gameplay_changed=self._last_action_gameplay_changed,
                     timeline=_animation_timeline_enabled(),
@@ -5859,7 +5859,7 @@ class ToolAgent:
                         previous_step_summary.get("animation"),
                         action_display=previous_step_summary.get("animation_action"),
                         # the animated action's own flag, not the sequence's: an
-                    # inert INTERACT at the end of a batch that moved other things
+                    # inert SPACE at the end of a batch that moved other things
                     # still hid everything it did
                     gameplay_changed=self._last_action_gameplay_changed,
                         game_over=True,
@@ -6024,8 +6024,8 @@ class ToolAgent:
                 *([] if _static_to_system() else [TOOL_CALL_FORMAT_GUIDANCE]),
             ]
         )
-        if "CLICK" in _normalize_valid_actions(valid_actions) and not _static_to_system():
-            lines.append("If you use CLICK, include integer row and col arguments.")
+        if "MOUSE" in _normalize_valid_actions(valid_actions) and not _static_to_system():
+            lines.append("If you use MOUSE, include integer row and col arguments.")
         if _opener_commit_hint():
             # last line of the opener, where the resumption prompt sits relative
             # to the reply it influences
@@ -6314,8 +6314,8 @@ class ToolAgent:
                 if not action_name:
                     raise ValueError(f"Action {index} is missing an `action` field.")
                 entry = {"action": action_name}
-                if action_name.upper() == "CLICK" and ("x" in item or "y" in item):
-                    raise ValueError(f"Action {index} uses legacy CLICK x/y fields; use row and col.")
+                if action_name.upper() == "MOUSE" and ("x" in item or "y" in item):
+                    raise ValueError(f"Action {index} uses legacy MOUSE x/y fields; use row and col.")
                 if "row" in item:
                     entry["row"] = item.get("row")
                 if "col" in item:
@@ -6772,8 +6772,8 @@ class ToolAgent:
                 self._last_animation_chain = raw_payload.get("animation_chain") or []
                 # Whether the LAST executed action moved anything, which is not
                 # the same as whether the sequence did: a batch of UP, DOWN,
-                # LEFT, INTERACT reports gameplay_changed for the batch, so an
-                # inert INTERACT at the end was hidden behind three moves that
+                # LEFT, SPACE reports gameplay_changed for the batch, so an
+                # inert SPACE at the end was hidden behind three moves that
                 # were not. The image exists for the action that animated, so
                 # it is that action's flag that decides.
                 per_action = raw_payload.get("gameplay_changed_per_action")

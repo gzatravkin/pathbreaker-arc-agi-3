@@ -1,0 +1,16 @@
+{
+  "game_id": "ng27-d27b2e02",
+  "title": "CHAMBERS",
+  "default_fps": 8,
+  "baseline_actions": [
+    39,
+    27,
+    33,
+    39,
+    47
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

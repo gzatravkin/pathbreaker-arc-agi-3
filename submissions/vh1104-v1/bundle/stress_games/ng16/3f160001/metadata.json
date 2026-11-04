@@ -1,0 +1,17 @@
+{
+  "game_id": "ng16-3f160001",
+  "title": "TORUS",
+  "default_fps": 8,
+  "baseline_actions": [
+    28,
+    36,
+    42,
+    39,
+    37,
+    36
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "game_id": "ng85-8a850001",
+  "title": "SLIDE",
+  "default_fps": 8,
+  "baseline_actions": [
+    6,
+    16,
+    23,
+    38,
+    34
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

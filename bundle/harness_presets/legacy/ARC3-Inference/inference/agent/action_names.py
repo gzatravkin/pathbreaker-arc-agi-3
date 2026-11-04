@@ -10,15 +10,12 @@ ENGINE_TO_MODEL_ACTION = {
     "ACTION2": "DOWN",
     "ACTION3": "LEFT",
     "ACTION4": "RIGHT",
-    "ACTION5": "INTERACT",
-    "ACTION6": "CLICK",
+    "ACTION5": "SPACE",
+    "ACTION6": "MOUSE",
     "RESET": "RESET",
 }
 
 MODEL_TO_ENGINE_ACTION = {value: key for key, value in ENGINE_TO_MODEL_ACTION.items()}
-
-
-LEGACY_MODEL_NAMES = {"SPACE": "INTERACT", "MOUSE": "CLICK"}
 
 
 def reset_exposed() -> bool:
@@ -52,7 +49,6 @@ def to_model_action(name: str | None) -> str:
 
 def to_engine_action(name: str | None) -> str | None:
     raw = str(name or "").strip().upper()
-    raw = LEGACY_MODEL_NAMES.get(raw, raw)
     if not raw:
         return None
     if raw in {"ACTION7", "UNDO"}:

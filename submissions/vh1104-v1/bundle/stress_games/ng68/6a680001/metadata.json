@@ -1,0 +1,16 @@
+{
+  "game_id": "ng68-6a680001",
+  "title": "SPAN",
+  "default_fps": 8,
+  "baseline_actions": [
+    20,
+    23,
+    18,
+    23,
+    33
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

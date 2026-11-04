@@ -438,7 +438,7 @@ def _format_action_display(
 ) -> str:
     if action_name == "ACTION6":
         data = _model_mouse_action_data(action_data)
-        return f"CLICK(row={data['row']}, col={data['col']})"
+        return f"MOUSE(row={data['row']}, col={data['col']})"
     return to_model_action(action_name)
 
 
@@ -997,7 +997,7 @@ class _HarnessGameSession:
                 except (KeyError, TypeError, ValueError):
                     return (
                         None,
-                        f"CLICK action at index {index} requires integer row and col arguments.",
+                        f"MOUSE action at index {index} requires integer row and col arguments.",
                     )
             actions.append(arcengine.ActionInput(id=action_id, data=data))
         return actions, None
@@ -1108,7 +1108,7 @@ class _HarnessGameSession:
                 # The engine stores mouse coordinates as x/y; every consumer
                 # that identifies an action - the ledger, the action display,
                 # the guard signature - works in row/col. Passing action.data
-                # raw made every click share the signature "CLICK" with no
+                # raw made every click share the signature "MOUSE" with no
                 # coordinates, so one no-op click poisoned clicking ANYWHERE
                 # from that board state. On a mouse-only game that is terminal:
                 # observed as 175 replies and one executed action in a run.

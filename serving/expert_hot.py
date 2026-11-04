@@ -20,8 +20,6 @@ DONE_NAME = "done.json"
 ASIDE_NAME = "aside.json"
 STATUS_NAME = "status.json"
 CUT_PLAN = "expert_cut_plan.json"
-ORDER_NAME = "expert_usage.json"
-STAGE_PREFIX = "stage"
 MASKED = -30000.0
 ALIGN = 512
 LAYER_NAME = re.compile(r"^(?!.*mtp)(?:.*\.)?layers\.(\d+)\.mlp\.experts$")
@@ -31,8 +29,7 @@ B_NAMES = ("w13", "w2", "w13_scale", "w2_scale", "w13_zeros", "w2_zeros", "g1", 
 
 WORKER = {"layers": {}, "bound": False, "said": set(), "aside": "", "store": None}
 ENGINE = {"state": "idle", "checked": 0.0, "plan": None, "pool": None, "first": 0, "end": 0, "claimed": set(),
-          "began": 0.0, "said": 0.0, "applied": None, "moved_at": 0.0, "held_last": 0, "preempted": 0,
-          "set": set(), "rows_open": 0, "target": 0}
+          "began": 0.0, "said": 0.0, "applied": None, "moved_at": 0.0, "held_last": 0, "preempted": 0}
 
 
 def on():
@@ -127,24 +124,6 @@ def _runners(model_runner):
 
 def _served_dir(model_runner):
     return Path(model_runner.model_config.model)
-
-
-def _usage_order(rows):
-    found = []
-    roots = [Path(__file__).resolve().parent, Path("/kaggle/input")]
-    for root in roots:
-        if not root.is_dir():
-            continue
-        for pattern in (ORDER_NAME, f"*/{ORDER_NAME}", f"*/*/{ORDER_NAME}", f"*/*/*/{ORDER_NAME}"):
-            found += sorted(root.glob(pattern))
-    for path in found:
-        try:
-            order = json.loads(path.read_text(encoding="utf-8"))
-            if all(set(int(x) for x in order[str(layer)][:len(kept)]) == set(kept) for layer, kept in rows.items()):
-                return {int(k): [int(x) for x in v] for k, v in order.items() if str(k).isdigit()}, str(path)
-        except Exception:
-            continue
-    return None, f"no {ORDER_NAME} of {len(found)} found ranks the kept rows first"
 
 
 def _index(served):
@@ -363,9 +342,6 @@ def prepare(model_runner):
         indices = [index for index, _ in found]
         mark("prepare began", served=str(served), moe_layers=len(indices), plan_layers=len(rows),
              found_by=WORKER.get("found_by"), expert_names=WORKER.get("names"))
-        order, where = _usage_order(rows)
-        WORKER["order"] = order
-        say(f"cold experts ranked by {where}" if order else f"cold experts in id order: {where}")
         if sorted(set(indices)) != sorted(rows) or len(indices) != len(rows):
             raise RuntimeError(f"the forward context holds MoE layers {indices[:8]}... ({len(indices)}), the cut plan "
                                f"{len(rows)} layers")
@@ -375,10 +351,7 @@ def prepare(model_runner):
                 raise RuntimeError(f"layer {index} serves {served_n} experts, the cut plan keeps {len(rows[index])}")
             routed = runner.routed_experts
             kept = rows[index]
-            keptset = set(kept)
-            ranked = (WORKER.get("order") or {}).get(index)
-            extra = ([e for e in ranked if e not in keptset] if ranked
-                     else [e for e in range(512) if e not in keptset])
+            extra = [e for e in range(512) if e not in set(kept)]
             if index == min(rows):
                 why = _probe(runner, shards, index, kept)
                 if why:
@@ -548,30 +521,18 @@ def bind_tail(model_runner, kv_cache_config):
         raw = torch.empty(0, dtype=torch.int8, device=caches[0].device)
         raw.set_(caches[0].untyped_storage(), 0, (size,), (1,))
         at = first * block_bytes
-        layout = []
-        kepts = set()
-        colds = set()
         for index_state in sorted(WORKER["layers"].values(), key=lambda s: s.index):
-            cold = len(index_state.extra)
-            kepts.add(len(index_state.kept))
-            colds.add(cold)
             for name in B_NAMES:
                 if name not in index_state.specs:
                     continue
                 shape, dtype = index_state.specs[name]
                 length = _nbytes(shape, dtype)
                 index_state.views[name] = raw[at:at + length].view(dtype).view(shape)
-                rowed = bool(shape) and int(shape[0]) == cold
-                layout.append([at, length // cold if rowed else 0, length])
                 at += _aligned(length)
-        if len(kepts) != 1 or len(colds) != 1:
-            raise RuntimeError(f"layers keep {sorted(kepts)} and hold {sorted(colds)} cold experts; stages need one count")
         if at > size:
             raise RuntimeError("the cold experts run past the KV allocation")
         plan = {"first": first, "count": tail, "blocks": blocks, "block_bytes": block_bytes, "bytes": need,
-                "layers": len(WORKER["layers"]), "kept": kepts.pop(), "cold": colds.pop(), "views": layout}
-        plan["targets"] = {str(plan["kept"] + rows): len(_stage_blocks(plan, rows))
-                           for rows in range(0, plan["cold"] + 1, 5)}
+                "layers": len(WORKER["layers"])}
         out = store_dir()
         (out / PLAN_NAME).write_text(json.dumps(plan), encoding="utf-8")
         WORKER["bound"] = True
@@ -588,66 +549,35 @@ def bind_tail(model_runner, kv_cache_config):
         say(f"stood aside at KV allocation: {WORKER['aside']}; the cold experts stay masked for the whole run")
 
 
-def _stage_blocks(plan, rows_open):
-    first, blocks, size, cold = plan["first"], plan["blocks"], plan["block_bytes"], plan["cold"]
-    if rows_open >= cold:
-        return set(range(first, blocks))
-    ids = set()
-    if rows_open <= 0:
-        return ids
-    for start, row_bytes, length in plan["views"]:
-        end = start + (rows_open * row_bytes if row_bytes else length)
-        if end > start:
-            ids.update(range(start // size, -(-end // size)))
-    return {one for one in ids if first <= one < blocks}
-
-
 def ENGINE_SIDE_DONE():
     return bool(WORKER.get("switched"))
 
 
-def apply_switch(worker, rows_open=None):
+def apply_switch(worker):
     began = time.time()
     if not WORKER["bound"]:
         return {"ok": False, "why": WORKER["aside"] or "not bound"}
     torch.cuda.synchronize()
     out = store_dir()
     moved = 0
-    start = int(WORKER.get("rows_open", 0))
-    stop_all = start
     for state in sorted(WORKER["layers"].values(), key=lambda s: s.index):
-        cold = len(state.extra)
-        stop = cold if rows_open is None else max(0, min(cold, int(rows_open)))
-        stop_all = max(stop_all, stop)
-        if stop <= start:
-            continue
         held = torch.load(out / f"layer{state.index}.pt", map_location="cpu")
         for name, view in state.views.items():
             source = held[name]
             if tuple(source.shape) != tuple(view.shape) or source.dtype != view.dtype:
                 raise RuntimeError(f"layer {state.index} {name}: stored {tuple(source.shape)} {source.dtype} vs "
                                    f"view {tuple(view.shape)} {view.dtype}")
-            if view.dim() >= 1 and int(view.shape[0]) == cold:
-                view[start:stop].copy_(source[start:stop], non_blocking=False)
-                moved += source[start:stop].numel() * source.element_size()
-            elif start == 0:
-                view.copy_(source, non_blocking=False)
-                moved += source.numel() * source.element_size()
-        del held
+            view.copy_(source, non_blocking=False)
+            moved += source.numel() * source.element_size()
     torch.cuda.synchronize()
     for state in WORKER["layers"].values():
-        cold = len(state.extra)
-        stop = cold if rows_open is None else max(0, min(cold, int(rows_open)))
-        if stop > start:
-            state.mask[start:stop] = 0.0
+        state.mask.zero_()
     torch.cuda.synchronize()
-    WORKER["rows_open"] = stop_all
     WORKER["switched"] = True
     seconds = time.time() - began
-    first = next(iter(WORKER["layers"].values()))
     say(f"switched: {moved / 2**30:.2f} GiB of cold experts copied into the KV tail and unmasked in "
-        f"{seconds:.1f}s; every layer now routes over {len(first.kept) + stop_all} experts")
-    return {"ok": True, "bytes": moved, "seconds": seconds, "rows_open": stop_all}
+        f"{seconds:.1f}s; every layer now routes over 512 experts")
+    return {"ok": True, "bytes": moved, "seconds": seconds}
 
 
 def mark(stage, **extra):
@@ -703,7 +633,7 @@ def install_worker():
             return made
         initialize_from_config._taaf_expert_hot = True
         Worker.initialize_from_config = initialize_from_config
-    Worker.taaf_expert_hot_apply = lambda self, rows_open=None: apply_switch(self, rows_open)
+    Worker.taaf_expert_hot_apply = lambda self: apply_switch(self)
     mark("worker armed")
     say(f"worker armed in pid {os.getpid()}: Worker.load_model builds the cold experts after the model loads and "
         f"Worker.initialize_from_config binds them to the KV tail after the real allocation")
@@ -730,8 +660,7 @@ def _claim(pool, block):
 
 def claim_free(pool):
     taken = 0
-    for block_id in sorted(ENGINE["set"] - ENGINE["claimed"]):
-        block = pool.blocks[block_id]
+    for block in pool.blocks[ENGINE["first"]:ENGINE["end"]]:
         if block.ref_cnt == 0 and block.block_id not in ENGINE["claimed"]:
             pool.free_block_queue.remove(block)
             block.ref_cnt = 1
@@ -750,7 +679,7 @@ def wrap_free(cls):
             return stock(self, ordered_blocks)
         keep = []
         for block in ordered_blocks:
-            if (block.block_id in ENGINE["set"] and block.ref_cnt == 1
+            if (ENGINE["first"] <= block.block_id < ENGINE["end"] and block.ref_cnt == 1
                     and (block.pool is None or block.pool is self) and _claim(self, block)):
                 continue
             keep.append(block)
@@ -770,7 +699,7 @@ def stall_seconds():
 def preempt_holders(core):
     scheduler = core.scheduler
     manager = scheduler.kv_cache_manager
-    left = ENGINE["set"] - ENGINE["claimed"]
+    left = set(range(ENGINE["first"], ENGINE["end"])) - ENGINE["claimed"]
     holders = []
     for request in list(scheduler.running):
         try:
@@ -811,36 +740,24 @@ def tick(core):
                   f"serve keeps 400 experts", flush=True)
             return
         plan = json.loads(plan_path.read_text(encoding="utf-8"))
-        try:
-            said = go_path().read_text(encoding="utf-8")
-        except OSError:
-            said = ""
-        found = re.search(r"target=(\d+)", said)
-        cold = int(plan.get("cold", 10 ** 6))
-        kept = int(plan.get("kept", 0))
-        rows_open = min(cold, int(found.group(1)) - kept) if found and "views" in plan else cold
-        if rows_open <= ENGINE["rows_open"]:
-            return
         pool = _pool(core)
         if len(pool.blocks) != plan["blocks"]:
             ENGINE["state"] = "aside"
             print(f"EXPERT_HOT the scheduler holds {len(pool.blocks)} blocks, the worker planned {plan['blocks']}; "
                   f"the switch stands aside", flush=True)
             return
-        wanted = _stage_blocks(plan, rows_open) if "views" in plan else set(range(int(plan["first"]), int(plan["blocks"])))
         ENGINE.update(plan=plan, pool=pool, first=int(plan["first"]), end=int(plan["first"]) + int(plan["count"]),
-                      began=now, said=now, state="draining", moved_at=now, held_last=len(wanted & ENGINE["claimed"]),
-                      set=wanted, target=kept + rows_open)
+                      began=now, said=now, state="draining", moved_at=now, held_last=0)
         taken = claim_free(pool)
-        print(f"EXPERT_HOT switch asked to {kept + rows_open} experts: draining {len(wanted - ENGINE['claimed']) + taken} "
-              f"KV blocks of {len(wanted)} the stage needs; {taken} were free and are held now, the rest are held as "
-              f"their owners free them", flush=True)
+        print(f"EXPERT_HOT switch asked: draining KV blocks {ENGINE['first']}..{ENGINE['end'] - 1} "
+              f"({plan['count']} blocks); {taken} were free and are held now, the rest are held as their owners "
+              f"free them; nothing is preempted or recomputed", flush=True)
         state = "draining"
     if state == "draining":
         pool = ENGINE["pool"]
         claim_free(pool)
-        held = len(ENGINE["set"] & ENGINE["claimed"])
-        count = len(ENGINE["set"])
+        held = len(ENGINE["claimed"])
+        count = ENGINE["end"] - ENGINE["first"]
         if held > ENGINE["held_last"]:
             ENGINE["held_last"], ENGINE["moved_at"] = held, now
         if held < count and now - ENGINE["moved_at"] >= stall_seconds():
@@ -851,7 +768,7 @@ def tick(core):
                   f"held the {left} tail blocks still out and were preempted; blocks held by anything else wait",
                   flush=True)
             claim_free(pool)
-            held = len(ENGINE["set"] & ENGINE["claimed"])
+            held = len(ENGINE["claimed"])
         if held < count:
             if now - ENGINE["said"] >= 30:
                 ENGINE["said"] = now
@@ -861,32 +778,14 @@ def tick(core):
         ENGINE["state"] = "applying"
         print(f"EXPERT_HOT drained {count} blocks in {now - ENGINE['began']:.0f}s; the worker copies the cold experts "
               f"in and unmasks them", flush=True)
-        plan = ENGINE["plan"]
-        rows_open = int(ENGINE["target"]) - int(plan.get("kept", 0))
-        full = rows_open >= int(plan.get("cold", 10 ** 6)) or "views" not in plan
         try:
-            results = core.model_executor.collective_rpc(
-                "taaf_expert_hot_apply", args=(None if full else rows_open,))
+            results = core.model_executor.collective_rpc("taaf_expert_hot_apply")
         except Exception as failure:
             ENGINE["state"] = "aside"
             print(f"EXPERT_HOT apply failed: {failure!r}; the tail blocks stay held and the cold experts stay masked",
                   flush=True)
             return
         ENGINE["applied"] = results
-        if not full:
-            ENGINE["rows_open"] = rows_open
-            ENGINE["state"] = "idle"
-            ENGINE["checked"] = now
-            try:
-                (store_dir() / f"{STAGE_PREFIX}{ENGINE['target']}.json").write_text(
-                    json.dumps({"at": now, "target": ENGINE["target"], "blocks": count, "held_total": len(ENGINE["claimed"]),
-                                "results": results}, default=str), encoding="utf-8")
-            except OSError:
-                pass
-            print(f"EXPERT_HOT stage done {time.time() - ENGINE['began']:.0f}s after the ask: {ENGINE['target']} experts "
-                  f"route now, {len(ENGINE['claimed'])} tail blocks held: {results}", flush=True)
-            return
-        ENGINE["rows_open"] = int(plan.get("cold", 0))
         ENGINE["state"] = "done"
         try:
             (store_dir() / DONE_NAME).write_text(json.dumps({"at": now, "results": results}, default=str),

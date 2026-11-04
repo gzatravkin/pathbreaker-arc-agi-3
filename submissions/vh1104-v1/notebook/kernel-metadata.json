@@ -1,0 +1,36 @@
+{
+  "id": "grigoriyzatravkin/franzen-bulletk400vh1104",
+  "id_no": 142013285,
+  "title": "Franzen bulletk400vh1104",
+  "code_file": "franzen-bulletk400vh1104.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "grigoriyzatravkin/arc3-drafter-snapb",
+    "grigoriyzatravkin/arc3-mtp-hour2",
+    "grigoriyzatravkin/arc3-serving-unified59d",
+    "grigoriyzatravkin/arc3-start-seed",
+    "grigoriyzatravkin/arc3-vllm030-runtime-flat",
+    "grigoriyzatravkin/arc3-mtp-c512",
+    "grigoriyzatravkin/arc3-mtp-k400d",
+    "grigoriyzatravkin/arc3-ple-q6-0",
+    "grigoriyzatravkin/arc3-ple-q6-1",
+    "grigoriyzatravkin/arc3-ple-q6-2",
+    "grigoriyzatravkin/franzen-srck400vh1104"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "arc-prize-2026-arc-agi-3"
+  ],
+  "model_sources": [
+    "dfranzen/albucino-qwen3-8-flash-next-drafter/Transformers/default/1",
+    "dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/Transformers/default/1"
+  ],
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:2757e0c7d1e0a9cb43da657b97e223c321a98f5014bdf64f44f2f6b083ad2b2f",
+  "machine_shape": "NvidiaRtxPro6000"
+}

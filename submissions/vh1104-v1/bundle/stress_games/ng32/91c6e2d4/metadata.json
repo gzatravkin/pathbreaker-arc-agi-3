@@ -1,0 +1,16 @@
+{
+  "game_id": "ng32-91c6e2d4",
+  "title": "TOLL",
+  "default_fps": 8,
+  "baseline_actions": [
+    33,
+    27,
+    25,
+    23,
+    23
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "game_id": "ng22-2a220001",
+  "title": "SHADOW",
+  "default_fps": 8,
+  "baseline_actions": [
+    19,
+    20,
+    20,
+    19,
+    23,
+    26
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

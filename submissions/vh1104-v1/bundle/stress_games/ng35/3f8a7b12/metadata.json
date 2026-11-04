@@ -1,0 +1,16 @@
+{
+  "game_id": "ng35-3f8a7b12",
+  "title": "COMBO",
+  "default_fps": 8,
+  "baseline_actions": [
+    11,
+    13,
+    11,
+    14,
+    14
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

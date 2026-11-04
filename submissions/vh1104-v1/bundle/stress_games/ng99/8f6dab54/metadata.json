@@ -1,0 +1,16 @@
+{
+  "game_id": "ng99-8f6dab54",
+  "title": "DISPATCH",
+  "default_fps": 8,
+  "baseline_actions": [
+    11,
+    34,
+    32,
+    18,
+    38
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

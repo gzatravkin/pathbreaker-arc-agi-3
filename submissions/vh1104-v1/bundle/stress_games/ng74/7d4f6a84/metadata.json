@@ -1,0 +1,16 @@
+{
+  "game_id": "ng74-7d4f6a84",
+  "title": "SEEDS",
+  "default_fps": 8,
+  "baseline_actions": [
+    7,
+    7,
+    11,
+    6,
+    7
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}

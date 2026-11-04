@@ -1,0 +1,17 @@
+{
+  "game_id": "ng14-c41e5b0a",
+  "title": "SPELLBOOK",
+  "default_fps": 8,
+  "baseline_actions": [
+    134,
+    65,
+    42,
+    42,
+    45,
+    48
+  ],
+  "tags": [
+    "synthetic",
+    "stress"
+  ]
+}
