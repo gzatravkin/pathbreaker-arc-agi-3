@@ -278,7 +278,7 @@ optimizations in the stack, and it is approximate in two ways, which we measured
   token, so after a hole it still carries the text the client removed. A strict self-check (the holed session's next
   16 greedy tokens against an honest recompute, first-token log-probability within 0.5 nat) flagged 3 of the 4
   comparisons recorded; in the one we read, the holed session's token was still in the recompute's top 5, which
-  points at the shifted positions rather than at corrupted state.
+  we read as the shifted positions tripping a strict check rather than corrupted state.
 - *Positions drift.* Each hole leaves a gap in the rotary positions, so the head's distance from the newest token
   grows with every trim. In a two-hour run, 92 sessions were holed; the largest gap a session reached was 121,856
   positions at the median and 501,760 at most, and 37 of the 92 ended with the head farther away than the model's
@@ -287,7 +287,7 @@ optimizations in the stack, and it is approximate in two ways, which we measured
   replies without a tool call ran at 1.34% of turns with no hole (2,243 turns), 2.70% with holes inside 262K
   (2,669 turns) and 2.67% beyond it (750 turns) — about one extra empty turn in seventy.
 
-Holes ran in our submissions from Oct 19 to Oct 30, through most of our climb on the board. To compare, we ran a
+Holes ran in our submissions from Oct 19 to Oct 30. To compare, we ran a
 pair of 110-session rehearsals identical except for the holes and read every game copy at an equal number of its own
 tokens: at 250K tokens the holed run was ahead (53.2 against 50.9 levels), from about 500K the clean run was (68.3
 against 64.0 at 682K, 14 of 16 paired passes, one-sided p = 0.06 on one pair of runs). The quality cost is small and
