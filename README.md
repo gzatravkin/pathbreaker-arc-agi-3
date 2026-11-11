@@ -31,6 +31,7 @@ non-selected submission (`franzen-bulletk400fin1` v5, 41.34).
 | `bundle/MANIFEST.json` | The bundle's own manifest |
 | `serving/` | The serving layer: our vLLM patches and kernels, `serving_setup.py`, the compiled `w4a8fix_op.so`; `expert_hot.py` is the live expert switch (submission 1 only) |
 | `docs/figures/` | Figures of the write-up |
+| `training/` | The scripts that built the derived weights (expert order, draft heads, draft vocabulary, int6 embedding table); recipes in `training/TRAINING.md` |
 
 ## How it ran
 
